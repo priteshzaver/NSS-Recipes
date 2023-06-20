@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-export const favorites = ref({})
+export const favorites = ref([])
 
 export const addToFavorites = (recipe) => {
   favorites.value = [...favorites.value, recipe]
