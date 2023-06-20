@@ -4,7 +4,7 @@ import Chips from 'primevue/chips'
 import Fieldset from 'primevue/fieldset'
 import { ref } from 'vue'
 import { search } from '../stores/recipeStore'
-import { RecipeSearchResults } from './RecipeSearchResults.vue'
+import RecipeSearchResults from './RecipeSearchResults.vue'
 
 const ingredients = ref([])
 const handleSubmit = () => {
@@ -24,7 +24,7 @@ const handleSubmit = () => {
       </div>
     </form>
     <div class="mt-6">
-      <RecipeSearchForm />
+      <RecipeSearchResults />
     </div>
   </Fieldset>
 </template>
