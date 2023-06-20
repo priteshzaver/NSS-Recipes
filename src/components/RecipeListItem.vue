@@ -1,6 +1,8 @@
 <script setup>
 import Image from 'primevue/image'
 import Tag from 'primevue/tag'
+import { favorites, addToFavorites, removeFavorite } from '../stores/favoritesStore'
+import { computed } from 'vue'
 
 const props = defineProps([
   'recipeId',
@@ -11,6 +13,27 @@ const props = defineProps([
   'servings',
   'url'
 ])
+
+const isFavorite = computed(() => {
+  return favorites.value.some((favorite) => favorite.recipeId === props.recipeId)
+})
+
+const toggleFavorite = () => {
+  if (isFavorite.value) {
+    removeFavorite(props.recipeId)
+  } else {
+    const recipe = {
+      recipeId: props.recipeId,
+      imageUrl: props.imageUrl,
+      title: props.title,
+      categories: props.categories,
+      minutes: props.minutes,
+      servings: props.servings,
+      url: props.url
+    }
+    addToFavorites(recipe)
+  }
+}
 </script>
 
 <template>
@@ -18,7 +41,14 @@ const props = defineProps([
     <Image :src="props.imageUrl" width="180" preview />
     <div class="flex-grow-1 pl-3">
       <div>
-        <h3 class="text-primary mt-0 mb-1">{{ props.title }}</h3>
+        <div class="flex">
+          <h3 class="text-primary mt-0 mb-1">{{ props.title }}</h3>
+          <i
+            @click="toggleFavorite"
+            :class="{ 'pi-star': !isFavorite, 'pi-star-fill': isFavorite }"
+            class="pi ml-auto text-yellow-400 text-xl"
+          ></i>
+        </div>
         <Tag
           v-for="category in categories"
           :key="category"
